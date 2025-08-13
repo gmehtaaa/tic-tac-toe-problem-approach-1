@@ -1,4 +1,4 @@
-# Tic Tac Toe (Movetable-Based)
+# Tic Tac Toe 
 
 ## Overview
 This C++ program lets you play an interactive game of **Tic Tac Toe** against the computer.  
