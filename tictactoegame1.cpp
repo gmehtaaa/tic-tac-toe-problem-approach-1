@@ -5,9 +5,8 @@
 using namespace std;
 
 const int BOARD_SIZE = 9;
-const int MOVETABLE_SIZE = 19683; // 3^9
+const int MOVETABLE_SIZE = 19683; 
 
-// Convert board vector to decimal index (base-3)
 int boardToIndex(const vector<int>& board) {
     int index = 0;
     int power = 1;
@@ -18,7 +17,6 @@ int boardToIndex(const vector<int>& board) {
     return index;
 }
 
-// Print the board
 void printBoard(const vector<int>& board) {
     cout << "\n";
     for (int i = 0; i < BOARD_SIZE; i++) {
@@ -29,12 +27,11 @@ void printBoard(const vector<int>& board) {
     cout << "\n";
 }
 
-// Check if someone has won
 int checkWinner(const vector<int>& board) {
     int wins[8][3] = {
-        {0,1,2},{3,4,5},{6,7,8}, // rows
-        {0,3,6},{1,4,7},{2,5,8}, // cols
-        {0,4,8},{2,4,6}          // diagonals
+        {0,1,2},{3,4,5},{6,7,8}, 
+        {0,3,6},{1,4,7},{2,5,8}, 
+        {0,4,8},{2,4,6}          
     };
     for (auto &w : wins) {
         if (board[w[0]] != 0 &&
@@ -42,16 +39,14 @@ int checkWinner(const vector<int>& board) {
             board[w[1]] == board[w[2]])
             return board[w[0]];
     }
-    return 0; // no winner
+    return 0; 
 }
 
-// Check if board is full
 bool isFull(const vector<int>& board) {
     for (int cell : board) if (cell == 0) return false;
     return true;
 }
 
-// Generate move table: computer plays O in first empty cell
 void generateMoveTable(vector<vector<int>>& movetable) {
     for (int i = 0; i < MOVETABLE_SIZE; i++) {
         vector<int> board(BOARD_SIZE);
@@ -64,7 +59,7 @@ void generateMoveTable(vector<vector<int>>& movetable) {
         vector<int> nextBoard = board;
         for (int j = 0; j < BOARD_SIZE; j++) {
             if (nextBoard[j] == 0) {
-                nextBoard[j] = 2; // O (computer)
+                nextBoard[j] = 2; 
                 break;
             }
         }
@@ -73,10 +68,9 @@ void generateMoveTable(vector<vector<int>>& movetable) {
 }
 
 int main() {
-    vector<int> board(BOARD_SIZE, 0); // Start empty
+    vector<int> board(BOARD_SIZE, 0); 
     vector<vector<int>> movetable(MOVETABLE_SIZE, vector<int>(BOARD_SIZE));
 
-    // Precompute all moves
     generateMoveTable(movetable);
 
     cout << "Tic Tac Toe (You = X, Computer = O)\n";
@@ -97,7 +91,6 @@ int main() {
             break;
         }
 
-        // Player move
         int pos;
         cout << "Enter your move (1-9): ";
         cin >> pos;
@@ -105,9 +98,8 @@ int main() {
             cout << "Invalid move. Try again: ";
             cin >> pos;
         }
-        board[pos-1] = 1; // X (player)
+        board[pos-1] = 1; 
 
-        // Check win after player move
         if (checkWinner(board) == 1) {
             printBoard(board);
             cout << "You win!\n";
@@ -118,7 +110,6 @@ int main() {
             break;
         }
 
-        // Computer move using movetable
         int index = boardToIndex(board);
         board = movetable[index];
     }
